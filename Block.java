@@ -41,10 +41,18 @@ public class Block {
 
 		private int type;
 	    private int[][] x_y;
-
-	    private int xpos = 0;
-	    private int ypos = 0;
 	    
+        int[][][] x_yTable = new int[][][]{
+            {{0, 0}, {0, 0}, {0, 0}, {0, 0}},
+            {{0, -1}, {0, 0}, {-1, 0}, {-1, 1}},
+            {{0, -1}, {0, 0}, {1, 0}, {1, 1}},
+            {{0, -1}, {0, 0}, {0, 1}, {0, 2}},
+            {{-1, 0}, {0, 0}, {1, 0}, {0, 1}},
+            {{0, 0}, {1, 0}, {0, 1}, {1, 1}},
+            {{-1, -1}, {0, -1}, {0, 0}, {0, 1}},
+            {{1, -1}, {0, -1}, {0, 0}, {0, 1}}
+        };
+
 	    public Block() {
 
 	        x_y = new int[4][2];
@@ -55,23 +63,14 @@ public class Block {
 
 	    void createBlock(int blockType) {
 
-	        int[][][] x_yTable = new int[][][]{
-	                {{0, 0}, {0, 0}, {0, 0}, {0, 0}},
-	                {{0, -1}, {0, 0}, {-1, 0}, {-1, 1}},
-	                {{0, -1}, {0, 0}, {1, 0}, {1, 1}},
-	                {{0, -1}, {0, 0}, {0, 1}, {0, 2}},
-	                {{-1, 0}, {0, 0}, {1, 0}, {0, 1}},
-	                {{0, 0}, {1, 0}, {0, 1}, {1, 1}},
-	                {{-1, -1}, {0, -1}, {0, 0}, {0, 1}},
-	                {{1, -1}, {0, -1}, {0, 0}, {0, 1}}
-	        };
-
 	        for (int i = 0; i < 4; i++) {
-
-	            System.arraycopy(x_yTable[blockType], 0, x_y, 0, 4);
+	        	for(int j = 0; j < 2; j++)
+	        	{
+	        		x_y = x_yTable[blockType];
+	        	}
 	        }
 
-	        type = blockType;
+ 	        type = blockType;
 	    }
 	    
 	    private void setX(int index, int x) {
@@ -92,16 +91,6 @@ public class Block {
 	    public int get_y(int index) {
 
 	        return x_y[index][1];
-	    }
-	    
-	    public int getXpos()
-	    {
-	    	return xpos;
-	    }
-	    
-	    public int getYpos()
-	    {
-	    	return ypos;
 	    }
 
 	    public int getType()
