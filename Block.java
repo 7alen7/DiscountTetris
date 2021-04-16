@@ -44,15 +44,17 @@ public class Block {
 		private int yPos;
 		
 		private int type = NO_BLOCK;
-	    private int[][] x_y;	 
+	    	
+		// Array of values that dictate where individual squares go
+		private int[][] x_y; 
 	    
-	    private int rotateCount;
+	    private int rotateCount; // dictates what position the block is in {0, 1, 2, 3} for 4 possible rotations
 
-	    public Block() 
+	    public Block() // creates new block
 	    {
 
-	    	xPos = 0;
-	    	yPos = 0;
+	    	xPos = 0; // middle of block xPos
+	    	yPos = 0; // middle of block yPos
 	        x_y = new int[4][2]; // hold deviation from center of main block
 	    }
 	    
@@ -77,8 +79,8 @@ public class Block {
 	    }
 	    
 	    
-
-	    public void setBlock(int blockType) {
+		// Look to LINE_FIGURE for examples, think of them as coordinates on X/Y grid
+	    public void setBlock(int blockType) { // set individual square's x values based on block type
 
 	        if(blockType == NO_BLOCK)
 	        {
@@ -172,17 +174,17 @@ public class Block {
 	        
 	        else if(blockType == LINE_FIGURE)
 	        {
-	        	x_y[0][0] = -1;
-	        	x_y[0][1] = 0;
+	        	x_y[0][0] = -1; // square 1 x val
+	        	x_y[0][1] = 0; // square 1 y val
 	        	
-	        	x_y[1][0] = 0;
-	    	    x_y[1][1] = 0;
+	        	x_y[1][0] = 0; // square 2 x val
+	    	    x_y[1][1] = 0; // square 2 y val
 	    	    
-	    	    x_y[2][0] = 1;
-	    	    x_y[2][1] = 0;
+	    	    x_y[2][0] = 1; // square 3 x val
+	    	    x_y[2][1] = 0; // square 3 y val
 	    	    
-	    	    x_y[3][0] = 2;
-	    	    x_y[3][1] = 0;
+	    	    x_y[3][0] = 2; // square 4 x val
+	    	    x_y[3][1] = 0; // square 4 y val
 	        }
 	        
 	        else if(blockType == SQUARE_FIGURE)
@@ -207,23 +209,23 @@ public class Block {
 	    public int getSquareX(int squareNum) 
 	    {
 
-	        return x_y[squareNum][0];
+	        return x_y[squareNum][0]; // gets certain square's x value
 	    }
 	    
 	    public void setSquareX(int squareNum, int val)
 	    {
-	    	x_y[squareNum][0] = val;
+	    	x_y[squareNum][0] = val; // sets certain squares's x val
 	    }
 
 	    public int getSquareY(int squareNum) 
 	    {
 
-	        return x_y[squareNum][1];
+	        return x_y[squareNum][1]; // gets certain square's y val
 	    }
 	    
 	    public void setSquareY(int squareNum, int val)
 	    {
-	    	x_y[squareNum][1] = val;
+	    	x_y[squareNum][1] = val; // sets certain square's y val
 	    }
 
 	    public int getType()
@@ -232,10 +234,10 @@ public class Block {
 	    }
 
 	    
-	    public int furthestLeftSquare() 
+	    public int furthestLeftSquare() // finds the furthest left square of block grouping
 	    {
 
-	        int[] vals = {x_y[0][0], x_y[1][0], x_y[2][0], x_y[3][0]};
+	        int[] vals = {x_y[0][0], x_y[1][0], x_y[2][0], x_y[3][0]}; // array of block's x positions
 	        int left = vals[0];
 	        
 	        for(int x = 0; x < 3; x++)
@@ -249,7 +251,7 @@ public class Block {
 	        return left;
 	    }
 	    
-	    public int furthestRightSquare()
+	    public int furthestRightSquare() // same ^ but right
 	    {
 
 		        int[] vals = {x_y[0][0], x_y[1][0], x_y[2][0], x_y[3][0]};
@@ -266,9 +268,9 @@ public class Block {
 		        return right;
 	    }
 
-	    public int getLowestSquare()
+	    public int getLowestSquare() // finds lowest square in grouping
 	    {
-	    	int[] vals = {x_y[0][1], x_y[1][1], x_y[2][1], x_y[3][1]};
+	    	int[] vals = {x_y[0][1], x_y[1][1], x_y[2][1], x_y[3][1]}; // array of all y positions
 	    	int lowest = vals[0];
         
 	    	for(int x = 0; x < 3; x++)
@@ -281,7 +283,7 @@ public class Block {
 	    	return lowest;
         }
 	    	
-	    public int getHighestSquare()
+	    public int getHighestSquare() // finds highest square in grouping
 	    {
 	    	int[] vals = {x_y[0][1], x_y[1][1], x_y[2][1], x_y[3][1]};
 	    	int highest = vals[0];
@@ -296,7 +298,7 @@ public class Block {
 	    	return highest;
 	    }
 	    
-	    public int getRotation()
+	    public int getRotation() // returns rotation position
 	    {
 	    	return rotateCount;
 	    }
@@ -306,7 +308,7 @@ public class Block {
 	    	rotateCount = num;
 	    }
 	    
-	    public static Block randomBlock() 
+	    public static Block randomBlock() // returns random block (cannot be ghost or no_block objects)
 	    {
 
 	        Random r = new Random();
@@ -324,7 +326,7 @@ public class Block {
 	        return newBlock;
 	    }
 
-	    public Block rotateCounter() 
+	    public Block rotateCounter() // rotates the block counter-clockwise
 	    {
 
 	    	if(rotateCount >= 4)
@@ -343,7 +345,7 @@ public class Block {
 	        
 	        
 	        
-	        if(rotated.type == SQUARE_FIGURE)
+	        if(rotated.type == SQUARE_FIGURE) // no need to rotate a block
 	        {
 	        	rotated.x_y[0][0] = 0;
 	        	rotated.x_y[0][1] = 0;
@@ -367,15 +369,16 @@ public class Block {
 	        
 	        else
 	        {
-	        	if(rotated.type == LINE_FIGURE)
+	        	if(rotated.type == LINE_FIGURE) // based on rotateCount, positions the block with new x/y coords for all squares
 	        	{
+				//Think of this like a grid with x/y positions
 	        		if(rotateCount == 0)
 	        		{
-	    	        	rotated.x_y[0][0] = -1;
-	    	        	rotated.x_y[0][1] = 0;
+	    	        	rotated.x_y[0][0] = -1; //x
+	    	        	rotated.x_y[0][1] = 0; //y
 	    	        	
-	    	        	rotated.x_y[1][0] = 0;
-	    	    	    rotated.x_y[1][1] = 0;
+	    	        	rotated.x_y[1][0] = 0; //x
+	    	    	    rotated.x_y[1][1] = 0; //y
 	    	    	    
 	    	    	    rotated.x_y[2][0] = 1;
 	    	    	    rotated.x_y[2][1] = 0;
@@ -427,7 +430,7 @@ public class Block {
 	        		}
 	        	}
 	        	
-	        	else if(rotated.type == S_FIGURE)
+	        	else if(rotated.type == S_FIGURE) // positions s block based on rotate count
 	        	{
 	        		if(rotateCount == 0)
 	        		{
@@ -487,7 +490,7 @@ public class Block {
 	        		}
 	        }
 
-	        	else if(rotated.type == Z_FIGURE)
+	        	else if(rotated.type == Z_FIGURE) //
 	        	{
 	        		if(rotateCount == 0)
 	        		{
@@ -531,7 +534,7 @@ public class Block {
 	    	    	    rotated.x_y[3][0] = -1;
 	    	    	    rotated.x_y[3][1] = -1;
 	        		}
-	        		else if(rotateCount == 3)
+	        		else if(rotateCount == 3) //
 	        		{
 	        			rotated.x_y[0][0] = -1;
 	    	        	rotated.x_y[0][1] = 0;
@@ -547,7 +550,7 @@ public class Block {
 	        		}
 	        	}
 	        	
-	        	else if(rotated.type == RIGHT_ANGLE_FIGURE)
+	        	else if(rotated.type == RIGHT_ANGLE_FIGURE) //
 	        	{
 	        		if(rotateCount == 0)
 	        		{
@@ -731,7 +734,7 @@ public class Block {
         return rotated;
 }
 
-	    public Block rotateClockwise() 
+	    public Block rotateClockwise() // rotates the block clockwise
 	    {
 
 	    	if(rotateCount >= 4)
