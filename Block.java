@@ -48,7 +48,8 @@ public class Block {
 	    
 	    private int rotateCount;
 
-	    public Block() {
+	    public Block() 
+	    {
 
 	    	xPos = 0;
 	    	yPos = 0;
@@ -728,7 +729,7 @@ public class Block {
 	        }
 	    rotated.rotateCount = rotateCount;
         return rotated;
-	 }
+}
 
 	    public Block rotateClockwise() 
 	    {
