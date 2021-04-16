@@ -53,13 +53,7 @@ public class Game extends JFrame{
        
     private Timer gameOver;
     
-    private boolean firstPass = true;
-    
-    private JRadioButton basic = new JRadioButton("Basic Style");
-	private JRadioButton hacker = new JRadioButton("Hacker Style");
-	private JRadioButton ChicagoCubs = new JRadioButton("Chicago Cubs Style");
-	private JRadioButton rave = new JRadioButton("Rave Style");
-	private ButtonGroup group = new ButtonGroup();
+    private boolean firstPass = true;    
 	
 	private boolean checked = true;
 	
