@@ -66,12 +66,12 @@ public class Game extends JFrame{
     {
 		if(firstPass)
 		{
-		firstPass = false;
-    	int counter = 0;
-        int counter2 = 0;
+			firstPass = false;
+    			int counter = 0; // keep total of scores that are below the current score
+        		int counter2 = 0; // keep track of scores that are equal to 0
         if(true)
         {
-       	 while(scores[counter] < board.getScore())
+       	 while(scores[counter] < board.getScore()) // used to find how many scores in the list are above the game's current score 
        	 {
        		 counter++;
        		 if(counter == 5)
@@ -83,7 +83,7 @@ public class Game extends JFrame{
        			 counter2++;
        		 }
        	 }
-       	 if(counter == 1)
+       	 if(counter == 1) // These next if statements move the scores down according to where the newest score falls in the rankings
        	 {
        		 scores[0] = board.getScore();
        		 names[0] = user.getName();
@@ -135,13 +135,13 @@ public class Game extends JFrame{
        	 }
         }
         
-        PrintWriter w2 = new PrintWriter("scores.txt");
-        w2.print("");
-        w2.close();
-        FileWriter writer = new FileWriter("scores.txt", true);
+        PrintWriter w2 = new PrintWriter("scores.txt"); // create new writer
+        w2.print(""); // clear writer file
+        w2.close(); // close
+        FileWriter writer = new FileWriter("scores.txt", true); // create new writer to append
         
         int i = 4;
-        while(i >= counter2)
+        while(i >= counter2) // add scores and names to file that are not equal to 0 (have to be earned)
         {
        	 writer.write(names[i]);
        	 writer.write("\n");
@@ -152,8 +152,8 @@ public class Game extends JFrame{
         writer.close();
         // Handle components
         
-        state = GAMEOVER;
-        changeButtonText("Start");
+        state = GAMEOVER; // change state
+        changeButtonText("Start"); // reset button
         firstPass = false;
 		}
     }
@@ -181,7 +181,7 @@ public class Game extends JFrame{
         
         
         setTitle("Discount Tetris");
-        setSize(500, 500);
+        setSize(500, 500); // board size
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);	        
    		
@@ -189,21 +189,22 @@ public class Game extends JFrame{
    		checked = true;
 	}
 	
-	private void initStart()
+	private void initStart() // edits button text, starts and stops games
 	{
 		start.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				try {
-	            	if(ButtonSwitch % 2 == 0 || board.getState() == GAMEOVER)
-	            	{
-	            		checked = true;
-	            		String userName = JOptionPane.showInputDialog("Please input your username: ");
-	               	 	while(userName == null || userName.length() == 0)
-	               	 	{
-	               	 		userName = JOptionPane.showInputDialog("Please input your username (You must input a name): ");
-	               	 	}
+				try 
+				{
+	            			if(ButtonSwitch % 2 == 0 || board.getState() == GAMEOVER)
+	            				{
+	            				checked = true;
+	            				String userName = JOptionPane.showInputDialog("Please input your username: ");
+	               	 			while(userName == null || userName.length() == 0)
+	               	 			{
+	               	 				userName = JOptionPane.showInputDialog("Please input your username (You must input a name): ");
+	               	 			}
 	               	 	user.setPlayerName(userName);
 	            		board.start();
 	            		firstPass = true;
@@ -250,12 +251,12 @@ public class Game extends JFrame{
 	}
 	
 	
-	private void initTimer()
+	private void initTimer() //timer used to check game state and update button
 	{
 		gameOver = new Timer(300, new checkState());
 	}
 
-	private void populateScoreBoard() throws FileNotFoundException {
+	private void populateScoreBoard() throws FileNotFoundException { // reads info from scores.txt
        	if(scoreBoardCount == 0)
        	{
        		scoreBoardText.setEditable(false);
@@ -270,8 +271,8 @@ public class Game extends JFrame{
        		int counter = 0;
             while(reader.hasNextLine())
             {
-            	names[counter] = reader.nextLine();
-           	 	scores[counter] = Integer.parseInt(reader.nextLine());
+            	names[counter] = reader.nextLine(); // gets associated name
+           	 	scores[counter] = Integer.parseInt(reader.nextLine()); // gets socres value
            	 	counter++;
            	 	if(counter >= 5)
            	 	{
@@ -290,10 +291,10 @@ public class Game extends JFrame{
             String tempS;
             for (int i = 0; i < count; i++) 
             {
-                for (int j = i + 1; j < count; j++) { 
+                for (int j = i + 1; j < count; j++) { //sort score and name arrays so they go highest to lowest
                     if (scores[i] > scores[j]) 
                     {
-                        temp = scores[i];
+                        temp = scores[i]; 
                         tempS = names[i];
                         scores[i] = scores[j];
                         names[i] = names[j];
@@ -304,7 +305,7 @@ public class Game extends JFrame{
             }
             
             
-            for(int i = 0; i < 5; i++)
+            for(int i = 0; i < 5; i++) // don't know what this does, scared to remove it
             {
             	scores[i] = scores[i];
             	names[i] = names[i];
@@ -319,23 +320,23 @@ public class Game extends JFrame{
        		System.out.println(scoreBoardCount);
        		while(tempCtr > 0)
        		{
-       			scoreBoardText.append(names[i] + " - " + scores[i] + "\n");
+       			scoreBoardText.append(names[i] + " - " + scores[i] + "\n"); // display sorted scores
        			i--;
        			tempCtr--;
        		}
-       		
+       		// append instructions to scoreboard TextArea
        		scoreBoardText.append("\n\n\nPress 'f' to view customization options\n\nPress 'i' to view intensity options\n\nPress 's' to disable shadows\n\nPress 'm' for a secret");
        	}
 		
 	}
 
-	public void changeButtonText(String text)
+	public void changeButtonText(String text) // allows us to change button text
 	{
 		start.setLabel(text);
 	}
 	
-	public void calculateScoreBoardCount() throws IOException
-    {
+	public void calculateScoreBoardCount() throws IOException // calculates how many values should be displayed on scoreboard for new game. Equal to number of scores in scores.txt
+    	{
 
    	 	File fileName = new File("scores.txt");
    	 	if(fileName.createNewFile())
@@ -357,7 +358,7 @@ public class Game extends JFrame{
    	 	}
     }
 	
-	private class checkState implements ActionListener {
+	private class checkState implements ActionListener { // used to check state of board and edit button accordingly. Used by timer since I couldn't figure out PropertyChangeSupport
 
         @Override
         public void actionPerformed(ActionEvent e) {
