@@ -1,5 +1,6 @@
 package tetris;
 
+// Packages used for this class
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -42,55 +43,154 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 
-
+/**
+ * Board Object Class
+ * 
+ * <p> Defines the various attributes of the tetris board and how it, and the blocks that make the board up, can be manipulated. 
+ * @author CS321 Group 3
+ * @version 3rd attempt to get this project to work.
+ *
+ */
 public class Board extends JPanel {
 
+	/**
+	 * Holds the width of the board. Value is set to 10, to signify 10 blocks wide.
+	 */
 	private final int WIDTH = 10;
+	
+	/**
+	 * Holds the height of the board. Value is set to 22, to signify 22 blocks wide.
+	 */
 	private final int HEIGHT = 22;
+		
 	
-	private int linesRemoved = 0;		
-	
+	/**
+	 * Holds the state of the board, can be set to STARTED, GAMEOVER, or PAUSED (1, 2, or 3)
+	 */
 	private int state;
+	
+	/**
+	 * Static value set to denote the game is in a started/playing state. Integer value of 1.
+	 */
 	public static final int STARTED =  1;
+	/**
+	 * Static value set to denote the game is in a stopped/game over state. Integer value of 2.
+	 */
     public static final int GAMEOVER = 2;
+    /**
+	 * Static value set to denote the game is in a paused state. Integer value of 3.
+	 */
     public static final int PAUSED =   3;
     
+    /**
+     * A second check for the variable isFalling. Used to be absolutely sure that the current block is/isn't falling.
+     */
     private boolean blockState = false;
     
+    /**
+     * Holds the score of the current game on the board. Is edited by removeLines() function. Incremented by 10 for every block placed.
+     */
     private int score = 0;
+    /**
+     * Used to check if, after the last lines were removed, this current block placement also removed lines.
+     * This feature rewards players for removing lines in continuous play segments. 
+     */
     private int BackToBackCount = 1;
+    /**
+     * Used to check if a line was removed during the last play segment. 
+     * True if a line was removed, false otherwise. Initially set to false.
+     */
     private boolean removedLastRound = false;
     
-    private int lines = 0;
-
-    
+    /**
+     * Used to hold the current falling block. Will be edited by functions until finally placed on the board.
+     */
     private Block falling;
+    /**
+     * Used to check if the falling block is still in a falling state. Double checked by the blockState boolean variable.
+     */
     private boolean isFalling = true;
+    /**
+     * A double array used to hold the types of blocks that are currently populating the board.
+     * The integer values in this array correspond to the static values found in Block class.
+     */
     private int[][] block;
     
-    Timer timer;
+    /**
+     * A timer that is used to interrupt the flow of program execution, causes blocks to fall down, and checks the state of the currently falling block.
+     * 
+     */
+    Timer cycle;
     
+    /**
+     * A string that denotes the current chosen customization type for the board. Initially set to "Basic"
+     */
     private String customizationOption = BASIC;
     
+    /**
+     * A static string that is used to signify the board has "Basic" customization selected.
+     */
     public static final String BASIC =   	"Basic";
+    /**
+     * A static string that is used to signify the board has "Hacker" customization selected.
+     */
     public static final String HACKER =    "Hacker";
+    /**
+     * A static string that is used to signify the board has "Chicago Cubs" customization selected.
+     */
     public static final String CUBS ="Chicago Cubs";
+    /**
+     * A static string that is used to signify the board has "Rave" customization selected.
+     */
     public static final String RAVE =        "Rave";
+    /**
+     * Used to alternate the color of the lines on the board to simulate rave lights. Values can be 0, 1, 2, 3, or 4.
+     * Used in conjunction with raveSetting2.
+     */
     private int raveSetting = 0;
+    /**
+     * Used to alternate the color of the lines on the board to simulate rave lights.
+     * Used in conjunction with raveSetting.
+     */
     private int raveSetting2 = 0;
     
+    /**
+     * String value that denotes the current board difficulty and scoring system. Initially set to "Basic"
+     */
     private String intensity = "Basic";
+    /**
+     * A static string used to denote that the board has the "Basic" difficulty selected. 
+     */
     public static final String BASIC_INTENSITY = "Basic";
+    /**
+     * A static string used to denote that the board has the "Hard" difficulty selected. 
+     */
     public static final String HARD = 			  "Hard";
+    /**
+     * A static string used to denote that the board has the "Easy" difficulty selected. 
+     */
     public static final String EASY = 			  "Easy";
     
-    
+    /**
+     * Used to check if the player wants to have shadows enabled on the game board. Initially 0.
+     * If 0, the game will draw shadows under the falling block, otherwise it won't.
+     */
     private int shadows = 0;
     
+    /**
+     * Used to check if the player wants to have a Dropkick Murphys/Irish style to the board. Initially set to 0.
+     * If secret is set to 1, the board will display one of the band's album covers (and look pretty cool), otherwise the game has normal customization.
+     */
     private int secret = 0;
     
+    /**
+     * The JLabel that has items from the board class placed on it
+     */
     public JLabel newLabel = new JLabel("");
 
+    /**
+     * Public constructor to create a new board object. Initializes the block[][] array, setsFocusable(true) and adds a keyListener.
+     */
     public Board() 
     {
     	block = new int[WIDTH][HEIGHT];
@@ -102,22 +202,39 @@ public class Board extends JPanel {
         
     }
 
+    /**
+     * Returns the width value that each individual block should have to fit the board.
+     * @return the integer value 35
+     */
     public int getBlockWidth()
     {
     	return 350 / WIDTH;
     }
 
+    /**
+     * Returns the height value that each individual block should have to fit the board.
+     * @return the integer value 18
+     */
     public int getBlockHeight()
     {
     	return 400 / HEIGHT;
     }
     
-    
+    /**
+     * Gets the state of the board
+     * @return current state (STARTED, GAMEOVER, or PAUSED)
+     */
     public int getState()
     {
     	return state;
     }
 
+    /**
+     * Used to start a new game of tetris on the board.
+     * 
+     * <P> Resets score, resets the board, gets a new falling block, resets the cycle timer, and updates state to STARTED.
+     * @throws IOException if the file "scores.txt" cannot be found
+     */
     public void start() throws IOException 
     {    	
     	
@@ -128,31 +245,50 @@ public class Board extends JPanel {
         block = new int [HEIGHT][WIDTH];
         reset();
 
-        timer = new Timer(300, new everySecond());
-        timer.start();
+        cycle = new Timer(300, new everySecond());
+        cycle.start();
         newBlock();
 
     }
+    
+    /**
+     * Will return the games current score
+     * @return score
+     */
     public int getScore()
     {
     	return score;
     }
 
+    /**
+     * Used to get the block type at position [y][x] in the block array.
+     * @param x: width location on the board
+     * @param y: height location on board
+     * @return integer value that corresponds to the block type found at that location (i.e Block.LINE_FIGURE)
+     */
     private int getShape(int x, int y) 
     {
     	return block[y][x];
     }
 
-    public void quit(int doMessage)
+ 
+    /**
+     * Ends the current game, sets state to GAMEOVER, displays a game over message and final score, and stops the cycle timer.
+     */
+    public void quit()
     {
     	int i = 0;
     	state = GAMEOVER;
     	JOptionPane.showMessageDialog(null, "Game Over!\nFinal Score: " + score, "Alert!", i);
-    	linesRemoved = 0;
-    	timer.stop();
+    	cycle.stop();
     }
 
     @Override
+    /**
+     * Used to paint the current board.
+     * <P>Paints components in this order: super.paintComponent(g) -> DKM album (if secret is on -> blocks already placed -> falling block shadow -> falling block - > boundary lines
+     * @param g: graphics component for this board.
+     */
     public void paintComponent(Graphics g) 
     {
 
@@ -167,6 +303,10 @@ public class Board extends JPanel {
         drawLines(g);
     }
     
+    /**
+     * Will be used to draw the dropkick murphys background if and only if the variable secret is set to 1
+     * @param g: graphics component for this board.
+     */
     private void secretOn(Graphics g)
     {
     	if(secret == 1)
@@ -184,6 +324,10 @@ public class Board extends JPanel {
         }
     }
     
+    /**
+     * Used to draw the current falling block
+     * @param g: graphics component for this board.
+     */
     private void drawFalling(Graphics g)
     {
     	int blocksTop = 25;
@@ -201,6 +345,11 @@ public class Board extends JPanel {
     	}
     }
     
+    /**
+     * Used to draw the shadows under the currently falling block
+     * <P> The method says drawGhost, but it's more of a shadow than anything, sorry to disappoint.
+     * @param g: graphics component for this board.
+     */
     private void drawGhost(Graphics g)
     {
     	Block Ghost = new Block();
@@ -225,6 +374,10 @@ public class Board extends JPanel {
     	}
     }
 
+    /**
+     * Used to draw all blocks in the block[][] array. 
+     * @param g: graphics component for this board.
+     */
     private void drawElse(Graphics g) 
     {
 
@@ -256,6 +409,11 @@ public class Board extends JPanel {
     	}
     }    
 
+    
+    /**
+     * Used to drop the falling block to the lowest possible point. Will set isFalling to false once that location is found.
+     * @throws IOException if scores.txt cannot be found/opened
+     */
     private void hardDrop() throws IOException 
     {
 
@@ -270,6 +428,10 @@ public class Board extends JPanel {
         isFalling = false;
     }
 
+    /**
+     * Used to move falling down one level (y - 1) so long as the game isn't over or paused
+     * @throws IOException if scores.txt cannot be found/opened
+     */
     private void oneLineDown() throws IOException 
     {
 
@@ -280,6 +442,9 @@ public class Board extends JPanel {
         }
     }
 
+    /**
+     * Used to totally clear the board, resets block[][] as an array of all Block.NO_BLOCK integers.
+     */
     private void reset() 
     {
 
@@ -292,6 +457,11 @@ public class Board extends JPanel {
     	}
     }
 
+    /**
+     * Will increment the score up by 10, and creates a new block object. Also checks if the block can be placed. If not, the game ends.
+     * <P> Depending on difficulty settings, blocks can be random (Basic), all line pieces (Easy), or S and Square blocks (Hard).
+     * @throws IOException if scores.txt cannot be found/opened
+     */
     private void newBlock() throws IOException 
     {
     	System.out.println(score);
@@ -299,9 +469,9 @@ public class Board extends JPanel {
     	if(!placeBlock(falling))
     	{
     		falling.setBlock(Block.NO_BLOCK);
-            timer.stop();
+            cycle.stop();
             
-            quit(1);
+            quit();
     	}
     	else if(intensity.equals(EASY))
     	{
@@ -331,7 +501,11 @@ public class Board extends JPanel {
         falling.setYpos(20);
     }
 
-    
+    /**
+     * Used to rotate the currently falling block, clockwise or counter clockwise. 
+     * @param newBlock: new block that is a copy of the old falling object, just rotated one direction
+     * @return true if there are currently no blocks in its way, false otherwise. A value of false will not allow the block to rotate
+     */
     private boolean tryRotation(Block newBlock) 
     {
 
@@ -366,6 +540,11 @@ public class Board extends JPanel {
         return true;
     }
     
+    /**
+     * Used to place the current block on the board. If false, denotes that the blocks that have already been placed are too high, and the game ends.
+     * @param block2: current falling block object that will be edited and then restored in the falling object.
+     * @return value of true or false. If false, the game will end.
+     */
     private boolean placeBlock(Block block2)
     {
     	for (int i = 0; i < 4; i++) 
@@ -389,6 +568,11 @@ public class Board extends JPanel {
         return true;
     }
     
+    /**
+     * Used to move the current tetrominoe to the left 1 (falling.xPos - 1)
+     * @param block2: current falling block object that will be edited and then restored in the falling object.
+     * @return value of true or false. If false, the game will end.
+     */
     private boolean moveLeft(Block block2)
     {
     	int x, y;
@@ -442,6 +626,11 @@ public class Board extends JPanel {
     	}
     }
     
+    /**
+     * Used to move the current tetrominoe to the right 1 (falling.xPos + 1)
+     * @param block2: current falling block object that will be edited and then restored in the falling object.
+     * @return value of true or false. If false, the game will end.
+     */
     private boolean moveRight(Block block2)
     {
     	for (int i = 0; i < 4; i++) 
@@ -475,6 +664,11 @@ public class Board extends JPanel {
         return true;  
     }
     
+    /**
+     * Used to move the current tetrominoe down one row
+     * @param block2: current falling block object that will be edited and then restored in the falling object.
+     * @return value of true or false. If false, the block will be considered at its lowest possible point, and a new block will be created.
+     */
     private boolean moveDownOne(Block block2)
     {
     	for (int i = 0; i < 4; i++) 
@@ -508,6 +702,10 @@ public class Board extends JPanel {
         return true;  
     }
 
+    /**
+     * Used to remove lines from the board, and shift all rows above it down one. Will also increment score based on difficulty settings.
+     * 
+     */
     private void removeLines() 
     {
     	int[] types = new int[10];
@@ -560,9 +758,7 @@ public class Board extends JPanel {
         		BackToBackCount = 1;
         	}
         	
-        	removedLastRound = true;       	
-        	
-            lines += numFullLines;
+        	removedLastRound = true;       	       	
             
             if(intensity.equals(BASIC_INTENSITY))
             {
@@ -632,6 +828,13 @@ public class Board extends JPanel {
         }
     }
 
+    /**
+     * This function will be used to draw the blocks on the board, as well as set the background color, depending on which customization options have been chosen.
+     * @param g: graphics component of the board
+     * @param x: x location of the block to be drawn
+     * @param y: y location of the block to be drawn
+     * @param shape: objects shape value, used to denote color
+     */
     private void drawBlocks(Graphics g, int x, int y, int shape) {
     	
     	
@@ -857,6 +1060,11 @@ public class Board extends JPanel {
         	}
 }
     
+    /**
+     * Used to draw lines between block spaces to help players maneuver more accurately. 
+     * Colors will be adjusted based on customization options. 
+     * @param g: graphics component of the board.
+     */
     private void drawLines(Graphics g)
 	{
     	switch(customizationOption)
@@ -916,14 +1124,28 @@ public class Board extends JPanel {
 		g.drawLine(350, 425, 350, 0);
 	}
     
+    /**
+     * Used to change the String value of the variable customizationOption
+     * @param style: String that holds the new customization style 
+     */
     public void setCustomization(String style)
     {
     	customizationOption = style;
     }
 
+    /**
+     * Class that is used for the purpose of creating a game cycle. Will move blocks down at a regular interval, check the game state, and create new blocks when necessary.
+     * Implemented because doing this functionality with for/while loops proved to be impossible (for me to understand, at least)
+     * @author CS321-Group 3
+     *
+     */
     private class everySecond implements ActionListener {
 
         @Override
+        /**
+         * Is the actionPerformed function of the everySecond class.
+         * Used to update block placements, game states, and create new blocks where necessary. 
+         */
         public void actionPerformed(ActionEvent e) {
 
         	if(state == GAMEOVER || state == PAUSED)
@@ -972,9 +1194,17 @@ public class Board extends JPanel {
         }
     }
 
+    /**
+     * keyPress class is used to get the value for various keys that are pressed and alters the board accordingly.
+     * @author CS321 Group 3
+     *
+     */
     class keyPress extends KeyAdapter {
 
         @Override
+        /**
+         * keyPressed event. Contains functionality for right, left, up, and down arrows, as well as the space bar, I, M, F, and S keys.
+         */
         public void keyPressed(KeyEvent e) {
         	
         	int pressed = e.getKeyCode();
