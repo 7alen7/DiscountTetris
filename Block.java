@@ -58,21 +58,41 @@ public class Block {
 	        x_y = new int[4][2]; // hold deviation from center of main block
 	    }
 	    
+	    /**
+             * Get the x position of the block.
+             * 
+             * @return The current x position of the block
+             */
 	    public int getXpos()
 	    {
 	    	return xPos;
 	    }
 	    
+	    /**
+             * Get the y position of the block.
+             * 
+             * @return The current y position of the block
+             */
 	    public int getYpos()
 	    {
 	    	return yPos;
 	    }
 	    
+	    /**
+             * Set the x position of the block.
+             * 
+             * @param x The new x position for the block
+             */
 	    public void setXpos(int x)
 	    {
 	    	xPos = x;
 	    }
 	    
+	    /**
+             * Set the y position of the block.
+             * 
+             * @param y The new y position for the block
+             */
 	    public void setYpos(int y)
 	    {
 	    	yPos = y;
@@ -86,6 +106,7 @@ public class Block {
             // Look to LINE_FIGURE for examples, think of them as coordinates on X/Y grid
 	    public void setBlock(int blockType) { // set individual square's x values based on block type
 
+                // Set block shape type based on blockType passed to function
 	        if(blockType == NO_BLOCK)
 	        {
 	        	x_y[0][0] = 0;
@@ -275,10 +296,13 @@ public class Block {
 	        int[] vals = {x_y[0][0], x_y[1][0], x_y[2][0], x_y[3][0]}; // array of block's x positions
 	        int left = vals[0];
 	        
+                // Loop through x values
 	        for(int x = 0; x < 3; x++)
 	        {
+                    // If current value is further left than current furthest left value
 	        	if(vals[x] < left)
 	        	{
+                                // Update furthest left value
 	        		left = vals[x];
 	        	}
 	        }
@@ -297,10 +321,13 @@ public class Block {
 		        int[] vals = {x_y[0][0], x_y[1][0], x_y[2][0], x_y[3][0]};
 		        int right = vals[0];
 		        
+                        // Loop through x values
 		        for(int x = 0; x < 3; x++)
 		        {
+                                // If current value is further right than current furthest right value
 		        	if(vals[x] > right)
 		        	{
+                                        // Update furthest right value
 		        		right = vals[x];
 		        	}
 		        }
@@ -318,10 +345,13 @@ public class Block {
 	    	int[] vals = {x_y[0][1], x_y[1][1], x_y[2][1], x_y[3][1]}; // array of all y positions
 	    	int lowest = vals[0];
         
+                // Loop through y values
 	    	for(int x = 0; x < 3; x++)
 	    	{
+                        // If current value is lower than lowest value so far
 	    		if(vals[x] > lowest)
 	    		{
+                                // Update lowest value
 	    			lowest = vals[x];
 	    		}
 	    	}
@@ -338,63 +368,97 @@ public class Block {
 	    	int[] vals = {x_y[0][1], x_y[1][1], x_y[2][1], x_y[3][1]};
 	    	int highest = vals[0];
         
+                // Loop through y values
 	    	for(int x = 0; x < 3; x++)
 	    	{
+                        // If current value is higher than highest value so far
 	    		if(vals[x] > highest)
 	    		{
-	    			highest = vals[x];
+                            // Update highest value
+	    	            highest = vals[x];
 	    		}
 	    	}
+                
 	    	return highest;
 	    }
 	    
+            /**
+             * Get the rotational state of the block.
+             * 
+             * @return The rotation count
+             */
 	    public int getRotation() // returns rotation position
 	    {
 	    	return rotateCount;
 	    }
 	    
+            /**
+             * Set the rotational state of the block.
+             * 
+             * @param num The new rotational count
+             */
 	    public void setRotationCount(int num)
 	    {
 	    	rotateCount = num;
 	    }
 	    
+            /**
+             * Generates and returns a random block.
+             * 
+             * @return The new random block object
+             */
 	    public static Block randomBlock() // returns random block (cannot be ghost or no_block objects)
 	    {
 
+                // Create new random number generator
 	        Random r = new Random();
+                
+                // Generate random number
 	        int x = 0;
-	        
 	        while(x == 0)
 	        {
 	        	x = Math.abs(r.nextInt()) % 8;
 	        }
-	        
+                
+                // Create new block with randomized number as type
 	        Block newBlock = new Block();
-
 	        newBlock.setBlock(x);
 	        
 	        return newBlock;
 	    }
 
+            /**
+             * Rotates the block counter-clockwise.
+             * 
+             * @return The newly rotated block
+             */
 	    public Block rotateCounter() // rotates the block counter-clockwise
 	    {
 
+                // Wrap rotation count greater than or equal to 4
 	    	if(rotateCount >= 4)
 	    	{
 	    		rotateCount = 0;
 	    	}
+                
+                // Create new block
 	    	Block rotated = new Block();
 	        rotated.type = type;
+                
+                // Decrement rotation count
 	        rotateCount--;
-	        
+                
+                // Wrap rotation count greater than or equal to 4
 	        if(rotateCount < 0)
 	    	{
 	    		rotateCount = 3;
 	    	}
+                
+                // Store rotation count in new block
 	        rotated.rotateCount = rotateCount;
 	        
 	        
-	        
+	        // Don't rotate square blocks (there is no need)
 	        if(rotated.type == SQUARE_FIGURE) // no need to rotate a block
 	        {
 	        	rotated.x_y[0][0] = 0;
@@ -417,6 +481,7 @@ public class Block {
 	        	// do nothing
 	        }
 	        
+                // Rotate block based on shape
 	        else
 	        {
 	        	if(rotated.type == LINE_FIGURE) // based on rotateCount, positions the block with new x/y coords for all squares
@@ -780,21 +845,31 @@ public class Block {
 	        		}
 	        	}
 	        }
-	    rotated.rotateCount = rotateCount;
-        return rotated;
-}
-
+             
+                // Store rotation counter in new block
+                rotated.rotateCount = rotateCount;
+                
+                return rotated;
+            }
+            /**
+             * Rotates the block clockwise.
+             * 
+             * @return The newly rotated block
+             */
 	    public Block rotateClockwise() // rotates the block clockwise
 	    {
 
+                // Wrap rotation count greater than or equal to 4
 	    	if(rotateCount >= 4)
 	    	{
 	    		rotateCount = 0;
 	    	}
+                
+                // Create new block
 	    	Block rotated = new Block();
 	        rotated.type = type;
 	        
-	        
+	        // Don't rotate square blocks (there is no need)
 	        if(rotated.type == SQUARE_FIGURE)
 	        {
 	        	rotated.x_y[0][0] = 0;
@@ -817,6 +892,7 @@ public class Block {
 	        	// do nothing
 	        }
 	        
+                // Rotate block based on shape
 	        else
 	        {
 	        	if(rotated.type == LINE_FIGURE)
@@ -1179,9 +1255,12 @@ public class Block {
 	        		}
 	        	}
 	        }
+            
+            // Increment rotation counter and store in new block
 	    rotateCount++;
 	    rotated.rotateCount = rotateCount;
-        return rotated;
+            
+            return rotated;
 	 }
 }
 
