@@ -2,10 +2,24 @@ package tetris;
 
 import java.util.Random;
 
+	/**
+	 * Block Object Class
+	 * 
+	 * <p> Defines the various attributes of a tetris Tetrominoe and how they can be manipulated. 
+	 * @author CS321 Group 3
+	 * @version 3rd attempt to get this project to work.
+	 *
+	 */
 public class Block {
 	
+	/**
+	 *  A figure constant used to represent that the block is void
+	 */
 	public static final int NO_BLOCK = 0;
 
+	/**
+	 * A figure constant used to create a figure forming a square.
+	 */
 	public static final int SQUARE_FIGURE = 5;
 
 	      /**
@@ -38,18 +52,44 @@ public class Block {
 	       */
 	public static final int TRIANGLE_FIGURE = 7;
 	
+	/**
+	 * A figure constant used to create a Ghost/Shadow block. Used to produce shadows in the board.
+	 */
 	public static final int GHOST = 8;
 
+		/**
+		 * x position of the entire tetrominoe. Used to find the central location of a cluster of 4 blocks.
+		 */
 		private int xPos;
+		
+		/**
+		 * y position of the entire tetrominoe. Used to find the central location of a cluster of 4 blocks.
+		 */
 		private int yPos;
 		
+		/**
+		 * Used to hold the type of block the object refers to. Initially defined as NO_BLOCK (int 0).
+		 */
 		private int type = NO_BLOCK;
 	    	
+		
 		// Array of values that dictate where individual squares go
+		/**
+		 * Double array used to hold the values of each individual square in a tetrominoe. 
+		 * x_y[4][2]: 4 is the number of squares in tetrominoe, 2 is used for x vs y of that square.
+		 * EX: x_y[1][2] - 1 refers to the second square in a tetrominoe, and the 2 denotes that it is a Y value we're dealing with
+		 */
 		private int[][] x_y; 
 	    
+		/**
+		 * Integer dictating the tetrominoe's current rotation status.  Initially 0, max value of 3. Will be reset to 0 if higher than 3.
+		 */
 	    private int rotateCount; // dictates what position the block is in {0, 1, 2, 3} for 4 possible rotations
 
+	    
+	    /**
+	     * Constructor used to create a new tetrominoe. Sets xPos and yPos to 0. Initializes x_y array. 
+	     */
 	    public Block() // creates new block
 	    {
 
@@ -235,6 +275,7 @@ public class Block {
              * Get a specific square's x value.
              * 
              * @param squareNum The number of the square to get the x value of
+             * @return returns the X value of the square specified (x_y[square specified][0])
              */
 	    public int getSquareX(int squareNum) 
 	    {
@@ -257,6 +298,7 @@ public class Block {
              * Get a specific square's y value.
              * 
              * @param squareNum The number of the square to get the y value of
+             * @return returns the Y value of the square specified (x_y[square specified][1])
              */
 	    public int getSquareY(int squareNum) 
 	    {
@@ -428,7 +470,7 @@ public class Block {
 	    }
 
             /**
-             * Rotates the block counter-clockwise.
+             * Rotates the block counter-clockwise. Will alter the current block's
              * 
              * @return The newly rotated block
              */
@@ -461,6 +503,7 @@ public class Block {
 	        // Don't rotate square blocks (there is no need)
 	        if(rotated.type == SQUARE_FIGURE) // no need to rotate a block
 	        {
+	        	// Essentially do nothing
 	        	rotated.x_y[0][0] = 0;
 	        	rotated.x_y[0][1] = 0;
 	        	
@@ -847,10 +890,10 @@ public class Block {
 	        }
              
                 // Store rotation counter in new block
-                rotated.rotateCount = rotateCount;
+                rotated.rotateCount = rotateCount;               
                 
                 return rotated;
-            }
+}
             /**
              * Rotates the block clockwise.
              * 
@@ -872,6 +915,7 @@ public class Block {
 	        // Don't rotate square blocks (there is no need)
 	        if(rotated.type == SQUARE_FIGURE)
 	        {
+	        	// Essentially do nothing, again
 	        	rotated.x_y[0][0] = 0;
 	        	rotated.x_y[0][1] = 0;
 	        	
@@ -885,6 +929,7 @@ public class Block {
 	        	rotated.x_y[3][1] = 1;
 	    	    
 	    	    return rotated;
+	    	    
 	        }
 	        
 	        else if(rotated.type == NO_BLOCK)
@@ -1260,7 +1305,6 @@ public class Block {
 	    rotateCount++;
 	    rotated.rotateCount = rotateCount;
             
-            return rotated;
+	    return rotated;
 	 }
 }
-
