@@ -78,8 +78,12 @@ public class Block {
 	    	yPos = y;
 	    }
 	    
-	    
-		// Look to LINE_FIGURE for examples, think of them as coordinates on X/Y grid
+	    /**
+             * Set the values of a block depending on the desired shape.
+             * 
+             * @param blockType The type of block shape to create
+             */
+            // Look to LINE_FIGURE for examples, think of them as coordinates on X/Y grid
 	    public void setBlock(int blockType) { // set individual square's x values based on block type
 
 	        if(blockType == NO_BLOCK)
@@ -206,34 +210,65 @@ public class Block {
  	        type = blockType;
 	    }
 
+            /**
+             * Get a specific square's x value.
+             * 
+             * @param squareNum The number of the square to get the x value of
+             */
 	    public int getSquareX(int squareNum) 
 	    {
 
 	        return x_y[squareNum][0]; // gets certain square's x value
 	    }
 	    
+            /**
+             * Set a specific square's x value.
+             * 
+             * @param squareNum The number of the square to set the x value of
+             * @param val The x value to set
+             */
 	    public void setSquareX(int squareNum, int val)
 	    {
 	    	x_y[squareNum][0] = val; // sets certain squares's x val
 	    }
 
+            /**
+             * Get a specific square's y value.
+             * 
+             * @param squareNum The number of the square to get the y value of
+             */
 	    public int getSquareY(int squareNum) 
 	    {
 
 	        return x_y[squareNum][1]; // gets certain square's y val
 	    }
 	    
+            /**
+             * Set a specific square's y value.
+             * 
+             * @param squareNum The number of the square to set the y value of
+             * @param val The y value to set
+             */
 	    public void setSquareY(int squareNum, int val)
 	    {
 	    	x_y[squareNum][1] = val; // sets certain square's y val
 	    }
 
+            /**
+             * Get the shape type of the block.
+             * 
+             * @return The shape type of the block
+             */
 	    public int getType()
 	    {
 	    	return type;
 	    }
 
-	    
+            /**
+             * Get the furthest left square of the block.
+             * 
+             * @return The x position of the furthest left square
+             */
 	    public int furthestLeftSquare() // finds the furthest left square of block grouping
 	    {
 
@@ -251,6 +286,11 @@ public class Block {
 	        return left;
 	    }
 	    
+            /**
+             * Get the furthest right square of the block.
+             * 
+             * @return The x position of the furthest right square
+             */
 	    public int furthestRightSquare() // same ^ but right
 	    {
 
@@ -268,6 +308,11 @@ public class Block {
 		        return right;
 	    }
 
+            /**
+             * Get the lowest square of the block.
+             * 
+             * @return The y position of the lowest square
+             */
 	    public int getLowestSquare() // finds lowest square in grouping
 	    {
 	    	int[] vals = {x_y[0][1], x_y[1][1], x_y[2][1], x_y[3][1]}; // array of all y positions
@@ -282,7 +327,12 @@ public class Block {
 	    	}
 	    	return lowest;
         }
-	    	
+	    
+            /**
+             * Get the highest square of the block.
+             * 
+             * @return The y position of the highest square
+             */
 	    public int getHighestSquare() // finds highest square in grouping
 	    {
 	    	int[] vals = {x_y[0][1], x_y[1][1], x_y[2][1], x_y[3][1]};
