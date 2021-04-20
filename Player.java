@@ -1,5 +1,5 @@
 package tetris;
-
+//This class is responsible creating the player and holding the name 
 public class Player {
 	private String name;
 	
