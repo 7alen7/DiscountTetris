@@ -580,7 +580,7 @@ public class Board extends JPanel {
     	int yVals[] = new int[4];
     	
     	boolean failed = false;
-    	
+    	 //checks to make sure there is room
     	for (int i = 0; i < 4; i++) 
     	{
 
@@ -632,7 +632,7 @@ public class Board extends JPanel {
      * @return value of true or false. If false, the game will end.
      */
     private boolean moveRight(Block block2)
-    {
+    { //checks to make sure there is room
     	for (int i = 0; i < 4; i++) 
     	{
 
@@ -671,6 +671,7 @@ public class Board extends JPanel {
      */
     private boolean moveDownOne(Block block2)
     {
+	    //checks to make sure there is room
     	for (int i = 0; i < 4; i++) 
     	{
 
@@ -711,7 +712,7 @@ public class Board extends JPanel {
     	int[] types = new int[10];
         int numFullLines = 0;
         boolean fullLine = true;       
-        
+        //Checks to see if there are lines full and how many
         for(int i = HEIGHT - 1; i >= 0; i--)
         {
         	fullLine = true;
@@ -760,26 +761,26 @@ public class Board extends JPanel {
         	
         	removedLastRound = true;       	       	
             
-            if(intensity.equals(BASIC_INTENSITY))
+            if(intensity.equals(BASIC_INTENSITY))//Gives score for basic difficulty based on how many full lines
             {
             	switch(numFullLines)
             	{
-            		case 1:
+            		case 1://One line
             			score += 40;
             			break;
-            		case 2:
+            		case 2://Two lines
             			score += 100;
             			break;
-            		case 3:
+            		case 3://Three lines
             			score += 300;
             			break;
-            		case 4:
+            		case 4://Four lines
             			score += 1200;
             			break;
             	}
             }
             
-            else if(intensity.equals(HARD))
+            else if(intensity.equals(HARD))//Gives score for Hard difficulty
             {
             	switch(numFullLines)
             	{
@@ -798,7 +799,7 @@ public class Board extends JPanel {
             	}
             }
             
-            else if(intensity.equals(EASY))
+            else if(intensity.equals(EASY))//Gives score for Easy difficulty
             {
             	switch(numFullLines)
             	{
@@ -921,7 +922,7 @@ public class Board extends JPanel {
     		}
     	}
     	
-    	else if(customizationOption == HACKER)
+    	else if(customizationOption == HACKER)//Sets colors for Hacker background
     	{
     		setBackground(Color.black);
     		
@@ -966,7 +967,7 @@ public class Board extends JPanel {
     		}
     	}
     	
-    	else if(customizationOption == CUBS)
+    	else if(customizationOption == CUBS)//Sets colors for Cubs background
     	{
     		setBackground(Color.white);
     		
@@ -1011,7 +1012,7 @@ public class Board extends JPanel {
     		}
     	}
     		
-    		else if(customizationOption == RAVE)
+    		else if(customizationOption == RAVE)//Sets colors for Rave background
         	{  
     			if(raveSetting2 >= 0 && raveSetting2 < 3)
     			{
