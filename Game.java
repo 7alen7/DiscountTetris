@@ -83,7 +83,8 @@ public class Game extends JFrame{
        			 counter2++;
        		 }
        	 }
-       	 if(counter == 1) // These next if statements move the scores down according to where the newest score falls in the rankings
+	 // These next if statements move the scores down according to where the newest score falls in the rankings
+       	 if(counter == 1) 
        	 {
        		 scores[0] = board.getScore();
        		 names[0] = user.getName();
@@ -251,7 +252,7 @@ public class Game extends JFrame{
 	}
 	
 	
-	private void initTimer() //timer used to check game state and update button
+	private void initTimer() // timer used to check game state and update button
 	{
 		gameOver = new Timer(300, new checkState());
 	}
@@ -291,7 +292,7 @@ public class Game extends JFrame{
             String tempS;
             for (int i = 0; i < count; i++) 
             {
-                for (int j = i + 1; j < count; j++) { //sort score and name arrays so they go highest to lowest
+                for (int j = i + 1; j < count; j++) { // sort score and name arrays so they go highest to lowest
                     if (scores[i] > scores[j]) 
                     {
                         temp = scores[i]; 
