@@ -107,6 +107,10 @@ public class Board extends JPanel {
      */
     private Block falling;
     /**
+     * Used to hold next block to fall onto board.
+     */
+    private Block nextBlock;
+    /**
      * Used to check if the falling block is still in a falling state. Double checked by the blockState boolean variable.
      */
     private boolean isFalling = true;
@@ -287,6 +291,7 @@ public class Board extends JPanel {
     /**
      * Used to paint the current board.
      * <P>Paints components in this order: super.paintComponent(g) -> DKM album (if secret is on -> blocks already placed -> falling block shadow -> falling block - > boundary lines
+     * - > current score - > next block to fall
      * @param g: graphics component for this board.
      */
     public void paintComponent(Graphics g) 
@@ -301,8 +306,23 @@ public class Board extends JPanel {
         }
         drawFalling(g);
         drawLines(g);
+	displayScore(g);
+        drawNextBlock(g)
     }
-    
+	
+    /**
+     * Displays player's current score while playing Tetris
+     * @param g graphics component to display strings
+     */
+    private void displayScore(Graphics g) 
+    {
+        g.setFont(new Font("Courier New", 1, 15));
+    	g.drawString("Current Score ", 16, 445);
+        
+        g.setFont(new Font("Courier New", 1, 45));
+        g.drawString("" + score, 45, 480);
+    }
+	
     /**
      * Will be used to draw the dropkick murphys background if and only if the variable secret is set to 1
      * @param g: graphics component for this board.
@@ -1123,8 +1143,84 @@ public class Board extends JPanel {
 		g.drawLine(280, 425, 280, 0);
 		g.drawLine(315, 425, 315, 0);
 		g.drawLine(350, 425, 350, 0);
+	        g.drawLine(0, 425, 350, 425);
 	}
     
+	    /**
+     * Draws next block to fall onto board for player's convenience. 
+     * @param g graphics component for drawing next block
+     */
+    private void drawNextBlock(Graphics g) {
+        g.setFont(new Font("Courier", 1, 15));
+    	g.drawString("Next Block", 240, 445);
+        
+        nextBlock = CreateBlock.getNextBlock();
+        int type = nextBlock.getType();
+        
+        if(intensity.equals(BASIC_INTENSITY)) {
+            switch(type) {
+                case 1: //left angle
+                    drawBlocks(g, 290, 452, type);
+                    drawBlocks(g, 290, 470, type);
+                    drawBlocks(g, 290, 488, type);
+                    drawBlocks(g, 255, 452, type);
+                    break;
+                case 2: //line
+                    drawBlocks(g, 265, 452, type);
+                    drawBlocks(g, 265, 470, type);
+                    drawBlocks(g, 265, 488, type);
+                    drawBlocks(g, 265, 506, type);
+                    break;
+                case 3: //s figure
+                    drawBlocks(g, 290, 452, type);
+                    drawBlocks(g, 290, 470, type);
+                    drawBlocks(g, 255, 470, type);
+                    drawBlocks(g, 255, 488, type);
+                    break;
+                case 4: //z figure
+                    drawBlocks(g, 255, 452, type);
+                    drawBlocks(g, 255, 470, type);
+                    drawBlocks(g, 290, 470, type);
+                    drawBlocks(g, 290, 488, type);
+                    break;
+                case 5: //square
+                    drawBlocks(g, 255, 470, type);
+                    drawBlocks(g, 290, 470, type);
+                    drawBlocks(g, 290, 488, type);
+                    drawBlocks(g, 255, 488, type);
+                    break;
+                case 6: //right angle
+                    drawBlocks(g, 255, 452, type);
+                    drawBlocks(g, 255, 470, type);
+                    drawBlocks(g, 255, 488, type);
+                    drawBlocks(g, 290, 452, type);
+                    break;
+                case 7: //triangle
+                    drawBlocks(g, 300, 470, type);
+                    drawBlocks(g, 265, 470, type);
+                    drawBlocks(g, 230, 470, type);
+                    drawBlocks(g, 265, 452, type);
+                    break;
+                default: {
+                
+                }   
+            }
+        }
+        else if(intensity.equals(EASY)) {
+            type = 2; // only draw line
+            drawBlocks(g, 265, 452, type);
+            drawBlocks(g, 265, 470, type);
+            drawBlocks(g, 265, 488, type);
+            drawBlocks(g, 265, 506, type); 
+        }
+        else if(intensity.equals(HARD)) {
+            // harder difficulty, will not display next block
+            g.setFont(new Font("Courier", 1, 45));
+            g.drawString("?", 265, 490);
+        }
+
+    }
+	
     /**
      * Used to change the String value of the variable customizationOption
      * @param style: String that holds the new customization style 
