@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * @author mkryn
  */
         
-public class CreateBlock {
+public class BlockTracker {
     
     public static Block newBlock()
     {
