@@ -484,7 +484,7 @@ public class Board extends JPanel {
      */
     private void newBlock() throws IOException 
     {
-    	System.out.println(score);
+ 	System.out.println(score);
     	score += 10;
     	if(!placeBlock(falling))
     	{
@@ -492,8 +492,9 @@ public class Board extends JPanel {
             cycle.stop();
             
             quit();
-    	}
-    	else if(intensity.equals(EASY))
+        }
+    
+    	if(intensity.equals(EASY))
     	{
     		falling.setBlock(2);
     	}
@@ -505,16 +506,15 @@ public class Board extends JPanel {
     		if(ran == 1)
     		{
     			falling.setBlock(5);
-    		}
+    		} 
     		else
     		{
     			falling.setBlock(3);
     		}
-    	}
-    	
+    	} 
     	else if(intensity.equals(BASIC_INTENSITY))
     	{
-    		falling = Block.randomBlock();
+    		falling = BlockTracker.getCurrentBlock();
     	}
     	
         falling.setXpos(5);
@@ -1154,7 +1154,7 @@ public class Board extends JPanel {
         g.setFont(new Font("Courier", 1, 15));
     	g.drawString("Next Block", 240, 445);
         
-        nextBlock = CreateBlock.getNextBlock();
+        nextBlock = BlockTracker.getNextBlock();
         int type = nextBlock.getType();
         
         if(intensity.equals(BASIC_INTENSITY)) {
