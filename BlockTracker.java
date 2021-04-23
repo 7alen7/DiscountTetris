@@ -23,7 +23,7 @@ public class BlockTracker {
     static int i = 0;
         
     /**
-    * Sets block object to a random block.
+    * Sets block objec to a random block.
     * @return block object to be deployed on the board.
     */
     public static Block newBlock()
