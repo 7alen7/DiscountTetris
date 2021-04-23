@@ -307,7 +307,7 @@ public class Board extends JPanel {
         drawFalling(g);
         drawLines(g);
 	displayScore(g);
-        drawNextBlock(g)
+        drawNextBlock(g);
     }
 	
     /**
