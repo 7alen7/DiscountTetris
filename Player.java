@@ -8,6 +8,9 @@ package tetris;
  *
  */ 
 public class Player {
+	/**
+	 * Variable used to store the current player's name
+	 */
 	private String name;
 	
 	/**
