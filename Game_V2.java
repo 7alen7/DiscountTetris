@@ -1,4 +1,4 @@
-package edu.uah.cs.cs321.tetris2;
+package tetris;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
@@ -14,7 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- *  Class Description
+ *  A class to keep track of the state of the Tetris game, intitiating and stopping
+ *  the game accordingly.
  */
 public class Game extends JFrame{
 	
@@ -198,7 +199,7 @@ public class Game extends JFrame{
 	}
 	
 	/**
-         * Timer used to check game state and update button.
+         * Timer used to check game state.
          */
 	private void initTimer() 
 	{
@@ -233,6 +234,7 @@ public class Game extends JFrame{
 		     e1.printStackTrace();
 	        }
             }
+		
             /**
              * Edits Start/Quit button according to game state.
              * @throws IOException 
