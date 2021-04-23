@@ -34,6 +34,9 @@ public class Game extends JFrame{
      */
     public TextArea scoreBoard = new TextArea("",70,15,TextArea.SCROLLBARS_NONE);
 	
+    /**
+     * Variable used to get the game's current state
+     */
     private int state;
     /**
      * Static value to flag the game's current state as started. 
@@ -84,7 +87,7 @@ public class Game extends JFrame{
 	
     /**
      * Public method to change state of game to GAMEOVER.
-     * @throws IOException 
+     * @throws IOException If scores.txt doesn't exist and cannot be created in current directory 
      */
     public void quit() throws IOException
     {
@@ -104,7 +107,7 @@ public class Game extends JFrame{
     /**
      * Used to start a game of Tetris.
      * Adds displays for the Tetris board and text for ScoreBoard and controls. 
-     * @throws IOException 
+     * @throws IOException If scores.txt doesn't exist and cannot be created in current directory 
      */
     public void start() throws IOException 
     {
@@ -237,7 +240,7 @@ public class Game extends JFrame{
 		
             /**
              * Edits Start/Quit button according to game state.
-             * @throws IOException 
+             * @throws IOException If scores.txt doesn't exist and cannot be created in current directory 
              */
             private void checkState() throws IOException
     	    {
