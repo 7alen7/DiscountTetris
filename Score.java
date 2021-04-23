@@ -51,7 +51,7 @@ public class Score extends JPanel {
     
      /**
       *  Reads scores stored in text file to display for the player before Tetris game starts.
-      * @throws FileNotFoundException 
+      * @throws FileNotFoundException if scores.txt cannot be found
       */
     public void populateScoreBoard() throws FileNotFoundException 
         {
@@ -135,7 +135,7 @@ public class Score extends JPanel {
     
     /**
      * Determines how many values shall be displayed on scoreboard for the new game.
-     * @throws IOException
+     * @throws IOException If scores.txt doesn't exist and cannot be created in current directory 
      */
     private void calculateScoreBoardCount() throws IOException 
     	{
@@ -163,7 +163,7 @@ public class Score extends JPanel {
     * Sorts score list with new submitted score and write to text file.
     * @param board board object holding new score.
     * @param user user object holding current player's username.
-    * @throws IOException
+    * @throws IOException If scores.txt doesn't exist and cannot be created in current directory 
     */
     public void addScoreToBoard(Board board, Player user) throws IOException {
         
