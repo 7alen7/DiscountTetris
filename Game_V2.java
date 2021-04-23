@@ -19,15 +19,13 @@ import javax.swing.JOptionPane;
 public class Game extends JFrame{
 	
     // Declare class variables
-    public Board board;
-	
     /**
-     * The TextField to display ScoreBoard and Controls 
+     * Board object used to initiate or stop game of Tetris.
      */
-   // TextField text = new TextField();
+    public Board board;
     
     /**
-     * A button that allows user to start or quit game
+     * A button that allows user to start or quit game.
      */
     Button start = new Button("Start");
     /**
@@ -46,7 +44,7 @@ public class Game extends JFrame{
     public static final int GAMEOVER = 2;
     
     /**
-     * 
+     *  Used to keep track of button state.
      */
     private int ButtonSwitch = 0;
     
@@ -56,7 +54,7 @@ public class Game extends JFrame{
     public Player user = new Player("holder");
     
     /**
-     * Timer object...
+     * Timer object used to check state of the game.
      */
     private Timer gameOver;
     
@@ -71,7 +69,7 @@ public class Game extends JFrame{
     private boolean checked = true;
     
     /**
-     * Score object used to ...
+     * Score object used to display ScoreBoard.
      */
     private Score score = new Score();
 
@@ -109,16 +107,20 @@ public class Game extends JFrame{
      */
     public void start() throws IOException 
     {
+	 // Display Tetris board.
 	add(board);
 		
 	setResizable(false);
+	
+	// Display start/quit button.
 	start.setFocusable(false);
         add(start, BorderLayout.SOUTH); 
         
         initStart();
         
-        initTimer();              
-
+        initTimer();      
+	    
+        // Display scoreboard and controsl in sidebar next to running game.
         score.populateScoreBoard();
         scoreBoard = score.getScoreBoardText();
         add(scoreBoard, BorderLayout.EAST);
@@ -140,6 +142,10 @@ public class Game extends JFrame{
 	{
            start.addActionListener(new ActionListener()
 		{
+                  /**
+                   * Initiate or stop game of Tetris depending on player action.
+                   * @param e the action to be performed by player.
+                   */
 	           public void actionPerformed(ActionEvent e)
 	           {
 		        try 
@@ -147,12 +153,16 @@ public class Game extends JFrame{
 	            	    if(ButtonSwitch % 2 == 0 || board.getState() == GAMEOVER)
 	            	    {
 	            	        checked = true;
+				    
+				// Prompt for and read player username.
 	            		String userName = JOptionPane.showInputDialog("Please input your username: ");
 	               	 	while(userName == null || userName.length() == 0)
 	               	        {
 	               	 	    userName = JOptionPane.showInputDialog("Please input your username (You must input a name): ");
 	               	 	}
 	               	 	user.setPlayerName(userName);
+				    
+				// Initiate game of Tetris.
 	            		board.start();
 	            		firstPass = true;
 	            		start.setLabel("Quit");
@@ -164,6 +174,7 @@ public class Game extends JFrame{
 	            	    }
 	            	   else
 	            	   {
+				// Game over.
 	            		board.quit();
 	            		checked = false;
 	            		quit();
@@ -202,10 +213,16 @@ public class Game extends JFrame{
 	{
 	    start.setLabel(text);
 	}
-	
+	 
+	/**
+         * Checks state of the game and edits Start/Quit button accordingly.
+         */
 	private class checkState implements ActionListener 
-        { // used to check state of board and edit button accordingly. Used by timer since I couldn't figure out PropertyChangeSupport
-
+        { 
+            /**
+             * State is checked once action from player is performed.
+             * @param e the action to be performed by player
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
         	try {
@@ -216,7 +233,10 @@ public class Game extends JFrame{
 		     e1.printStackTrace();
 	        }
             }
-        
+            /**
+             * Edits Start/Quit button according to game state.
+             * @throws IOException 
+             */
             private void checkState() throws IOException
     	    {
     	        if(board.getState() == 2 && checked == true)
