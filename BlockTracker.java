@@ -1,4 +1,4 @@
-package edu.uah.cs.cs321.tetris2;
+package tetris;
 
 import java.io.IOException;
 import java.util.Random;
@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class BlockTracker {
         
    /**
-    *  Block objext used to hold next block to be deployed on board.
+    *  Block object used to hold next block to be deployed on board.
     */
     private static Block nextBlock = new Block();
     /**
@@ -23,7 +23,7 @@ public class BlockTracker {
     static int i = 0;
         
     /**
-    * Sets block objec to a random block.
+    * Sets block object to a random block.
     * @return block object to be deployed on the board.
     */
     public static Block newBlock()
