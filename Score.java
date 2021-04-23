@@ -1,5 +1,5 @@
 
-package edu.uah.cs.cs321.tetris2;
+package tetris;
 
 import java.awt.Font;
 import java.awt.TextArea;
@@ -11,9 +11,32 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 import javax.swing.JPanel;
 
-
+/**
+* A class to store score values and read score values to display for the player.
+* Scoreboard will update after player begins a new game. 
+*/
 public class Score extends JPanel {
+	
+    /**
+     * Integer array to hold scores on scoreboard.
+     */
+    private int[] scores = new int[5];
+    /**
+     * String array to hold player usernames.
+     */
+    private String[] names = new String[5];
+    /**
+     * Used to keep track of scoreboard state.
+     */
+    private int scoreBoardCount;
+    /**
+     * TextArea object used to display scoreboard and controls for player.
+     */
+    public TextArea scoreBoardText = new TextArea("", 75, 15, TextArea.SCROLLBARS_NONE);
      
+    /**
+     * Constructor class to intialize class fields to default values. 
+     */
     public Score() {
         
         for(int i = 0; i < 5; i++) {
@@ -26,10 +49,15 @@ public class Score extends JPanel {
         
     }
     
+     /**
+      *  Reads scores stored in text file to display for the player before Tetris game starts.
+      * @throws FileNotFoundException 
+      */
     public void populateScoreBoard() throws FileNotFoundException 
-        { // reads info from scores.txt
+        {
        	    if(scoreBoardCount == 0)
             {
+		// No current scores, display default.
        		scoreBoardText.setEditable(false);
                 scoreBoardText.setFont(new Font("Courier", 1, 12));
        		scoreBoardText.setText(" High Scores                  \n"+
@@ -38,6 +66,7 @@ public class Score extends JPanel {
        	    } 
             else
        	    {
+		// Read scores from text file.
        		File fileName = new File("scores.txt");
        		Scanner reader = new Scanner(fileName);
        		int counter = 0;
@@ -78,12 +107,13 @@ public class Score extends JPanel {
                     }
                 }
             
-                for(int i = 0; i < 5; i++) // don't know what this does, scared to remove it
+                for(int i = 0; i < 5; i++) 
                 {
             	scores[i] = scores[i];
             	names[i] = names[i];
                 }
-            
+                
+		// Set scoreboard to dispaly current score values
        		scoreBoardText.setEditable(false);
                 scoreBoardText.setFont(new Font("Courier", 1, 12));
        		scoreBoardText.setText(" High Scores                  \n"+
@@ -103,7 +133,11 @@ public class Score extends JPanel {
 		
 	}
     
-    private void calculateScoreBoardCount() throws IOException // calculates how many values should be displayed on scoreboard for new game. Equal to number of scores in scores.txt
+    /**
+     * Determines how many values shall be displayed on scoreboard for the new game.
+     * @throws IOException
+     */
+    private void calculateScoreBoardCount() throws IOException 
     	{
 
    	    File fileName = new File("scores.txt");
@@ -124,7 +158,13 @@ public class Score extends JPanel {
    	        reader.close();
    	    }
         }
-    
+	
+    /**
+    * Sorts score list with new submitted score and write to text file.
+    * @param board board object holding new score.
+    * @param user user object holding current player's username.
+    * @throws IOException
+    */
     public void addScoreToBoard(Board board, Player user) throws IOException {
         
          int counter = 0; // keep total of scores that are below the current score
@@ -143,7 +183,7 @@ public class Score extends JPanel {
        		   
        	    }
             switch (counter) {
-            // These next if statements move the scores down according to where the newest score falls in the rankings
+            // Move scores down according to where the newest score falls in the rankings
                 case 1:
                     scores[0] = board.getScore();
                     names[0] = user.getName();
@@ -206,6 +246,9 @@ public class Score extends JPanel {
             writer.close();
     }
     
+    /**
+     * Display scoreboard along with controls while player is playing Tetris.
+     */
     public void DisplayScoreBoard() {
         
         try {
@@ -238,6 +281,10 @@ public class Score extends JPanel {
         
     }
     
+    /**
+     * Used to get TextArea object.
+     * @return TextArea object to be added and displayed for player.
+     */
     public TextArea getScoreBoardText() {
         try {
             
@@ -254,10 +301,5 @@ public class Score extends JPanel {
 
     }
    
-    private int[] scores = new int[5];
-    private String[] names = new String[5];
-    private int scoreBoardCount;
-    
-    public TextArea scoreBoardText = new TextArea("", 75, 15, TextArea.SCROLLBARS_NONE);
     
    }
