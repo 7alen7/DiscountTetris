@@ -20,6 +20,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.awt.Font;
 import java.util.Random;
 import java.awt.Dimension;
 import java.awt.EventQueue;
