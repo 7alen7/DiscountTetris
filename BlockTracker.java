@@ -12,10 +12,19 @@ import java.util.logging.Logger;
  */
         
 public class BlockTracker {
-    
+        
+   /**
+    *  Block objext used to hold next block to be deployed on board.
+    */
+    private static Block nextBlock = new Block();
+    /**
+    *  Flag to indicate whether the current block is the first block to be deployed.
+    */
+    static int i = 0;
+        
     /**
     * Sets block objec to a random block.
-    * @return block object to be set on the board.
+    * @return block object to be deployed on the board.
     */
     public static Block newBlock()
     {
@@ -26,7 +35,7 @@ public class BlockTracker {
     } 
     
     /**
-    * Gets the first block to be displayed on the board
+    * Gets the first block to be deployed on the board
     * when Tetris is first initiated.
     * @return block object to be set onto board.
     */
@@ -48,7 +57,7 @@ public class BlockTracker {
      }
      
     /**
-    * Used to get the nextBlock to fall onto the board.
+    * Used to get the nextBlock to be deployed onto the board.
     * @return next block objext to be displayed on the board.
     */
     public static Block getNextBlock() {
@@ -57,8 +66,8 @@ public class BlockTracker {
     }
      
      /**
-     * Gets current block to be displayed on the board.
-     * @return block object to be displayed on the board.
+     * Gets current block to be deployed on the board.
+     * @return block object to be deployed on the board.
      */
     public static Block getCurrentBlock() {
         
@@ -78,6 +87,5 @@ public class BlockTracker {
         }
     }
     
-    private static Block nextBlock = new Block();
-    static int i = 0;
+
 }
