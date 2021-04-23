@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.uah.cs.cs321.tetris2;
 
 import java.io.IOException;
@@ -11,12 +6,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author mkryn
+ * A class to keep track of the current and next block on the board
+ * during a game of Tetris.
+ * 
  */
         
 public class BlockTracker {
     
+    /**
+    * Sets block objec to a random block.
+    * @return block object to be set on the board.
+    */
     public static Block newBlock()
     {
         Block block = new Block();
@@ -25,6 +25,11 @@ public class BlockTracker {
         return block;
     } 
     
+    /**
+    * Gets the first block to be displayed on the board
+    * when Tetris is first initiated.
+    * @return block object to be set onto board.
+    */
     private static Block getFirstBlock() {
          
         Block firstBlock = new Block();
@@ -33,29 +38,39 @@ public class BlockTracker {
         nextBlock();
         return firstBlock;
     }
-     
+    
+    /**
+    *  Used to initialize the next block to a new block.
+    */  
     private static void nextBlock() {
         
         nextBlock = newBlock();
-        int type = nextBlock.getType();
-
      }
      
+    /**
+    * Used to get the nextBlock to fall onto the board.
+    * @return next block objext to be displayed on the board.
+    */
     public static Block getNextBlock() {
        
         return nextBlock;    
     }
      
+     /**
+     * Gets current block to be displayed on the board.
+     * @return block object to be displayed on the board.
+     */
     public static Block getCurrentBlock() {
         
         Block currentBlock = new Block();
-
+         
+        // If game of Tetris just started, must get the first block
         if(i == 0) {
             currentBlock = getFirstBlock();
             i = 1;
             return currentBlock;
         }
-        else 
+        else // Set next block to current block.
         {
             currentBlock = nextBlock;
             nextBlock();
