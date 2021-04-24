@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -223,6 +224,7 @@ public class Score extends JPanel {
                     names[2] = names[3];
                     names[3] = names[4];
                     names[4] = user.getName();
+                    JOptionPane.showMessageDialog(null,"You got the new high score!");
                     break;
                 default:
                     break;
